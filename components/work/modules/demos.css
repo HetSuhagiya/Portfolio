@@ -1,0 +1,386 @@
+/* Shared, token-based work demos. Their own scroll area keeps controls reachable in pinned chapters. */
+.demo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  color: var(--fg);
+  background: var(--surface);
+  font-size: 0.875rem;
+}
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+.demo-subtitle {
+  margin-top: 0.35rem;
+  max-width: 58ch;
+  color: var(--fg-mute);
+  line-height: 1.5;
+}
+.demo-button {
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  min-height: 44px;
+  font-size: 0.8125rem;
+  color: var(--fg);
+  background: var(--surface-strong);
+  cursor: pointer;
+}
+.demo-button[aria-pressed='true'] {
+  border-color: var(--tint);
+  box-shadow: inset 0 -2px var(--tint);
+  background: color-mix(in oklab, var(--tint) 12%, var(--surface));
+}
+.demo :is(button, input, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+}
+.demo-stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+.demo-stages li {
+  overflow-wrap: anywhere;
+  padding-block: 0.25rem;
+}
+.demo-stages span {
+  font-family: var(--font-mono);
+  display: block;
+  color: var(--fg-mute);
+}
+.demo-stages [aria-current='step'] {
+  box-shadow: inset 0 -2px var(--tint);
+}
+.demo-body {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scroll-padding: 1rem;
+}
+.demo-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.demo-footnote {
+  border-top: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+  color: var(--fg-mute);
+  font-size: 0.75rem;
+}
+.demo-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
+  gap: 1rem;
+}
+.demo-metrics dt {
+  font-size: 0.75rem;
+  color: var(--fg-mute);
+}
+.demo-metrics dd {
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  overflow-wrap: anywhere;
+}
+.demo-choice legend {
+  margin-bottom: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--fg-mute);
+}
+.demo-choice > div,
+.demo-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.demo-panel {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-width: 0;
+  background: var(--surface);
+}
+.demo-panel h3 {
+  font-size: 1rem;
+  margin-bottom: 0.7rem;
+}
+.demo-note {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--fg-mute);
+}
+.demo-status {
+  padding: 0.75rem;
+  background: var(--surface-strong);
+  border-inline-start: 2px solid var(--tint);
+  line-height: 1.5;
+}
+.demo-range {
+  display: block;
+  margin-block: 0.7rem;
+}
+.demo-range > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8125rem;
+}
+.demo-range strong {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.demo-range input {
+  width: 100%;
+  min-height: 32px;
+  accent-color: var(--tint);
+  cursor: pointer;
+}
+.demo-bars {
+  display: grid;
+  gap: 0.6rem;
+}
+.demo-bar {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem;
+  min-height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  text-align: start;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+.demo-bar-fill {
+  position: absolute;
+  inset: 0;
+  width: var(--bar-width);
+  background: color-mix(in oklab, var(--tint) 19%, var(--surface));
+  z-index: -1;
+  border-inline-end: 2px solid var(--tint);
+}
+.demo-bar[aria-pressed='true'] {
+  outline: 2px solid var(--tint);
+  outline-offset: 1px;
+}
+.demo-table-wrap {
+  overflow: auto;
+  max-width: 100%;
+}
+.demo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.demo-table th {
+  text-align: start;
+  font-weight: 500;
+  color: var(--fg-mute);
+}
+.demo-table :is(th, td) {
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.demo-table caption {
+  text-align: start;
+  margin-bottom: 0.5rem;
+  color: var(--fg-mute);
+}
+.demo-select {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+}
+.demo-select select {
+  padding: 0.5rem;
+  min-height: 44px;
+  font-size: 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+  max-width: 100%;
+}
+.demo-tree-root {
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid var(--tint);
+  border-radius: 8px;
+}
+.demo-tree-root strong {
+  font-size: 2rem;
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+.demo-tree-branches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.demo-tree-branches > div {
+  border-top: 2px solid var(--tint);
+  padding: 0.75rem;
+  background: var(--surface-strong);
+}
+.demo-tree-branches strong {
+  display: block;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+}
+.demo-compare {
+  position: relative;
+  min-height: 19rem;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+.demo-compare-layer {
+  padding: 1rem;
+  background: var(--bg);
+  height: 100%;
+}
+.demo-compare-layer ol {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+.demo-compare-layer li {
+  padding: 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.demo-compare-after {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 var(--divider));
+  background: var(--surface-strong);
+}
+.demo-divider {
+  position: absolute;
+  inset-block: 0;
+  left: var(--divider);
+  width: 3px;
+  background: var(--tint);
+  pointer-events: none;
+}
+.demo-pipeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.demo-pipeline button {
+  text-align: start;
+}
+.demo-pipeline small {
+  display: block;
+  color: var(--fg-mute);
+  margin-top: 0.4rem;
+}
+.demo-dots {
+  width: 100%;
+  height: 280px;
+  display: block;
+}
+.demo-code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.demo-cell-state {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--fg-mute);
+  margin-top: 0.25rem;
+}
+.demo-cell-review {
+  border-inline-start: 2px solid var(--tint);
+}
+@media (max-width: 640px) {
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+  .demo-tree-branches {
+    grid-template-columns: 1fr;
+  }
+  .demo-pipeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .demo-header,
+  .demo-content {
+    padding: 0.75rem;
+  }
+  .demo-stages {
+    padding: 0.5rem 0.75rem;
+  }
+}
+@media (hover: hover) {
+  .demo-button:hover,
+  .demo-bar:hover {
+    border-color: var(--tint);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .demo-bar-fill {
+    transition: width 0.25s ease-out;
+  }
+}
+@media (forced-colors: active) {
+  .demo-button[aria-pressed='true'],
+  .demo-stages [aria-current='step'] {
+    outline: 2px solid Highlight;
+  }
+}
+
+.demo-drag-handle {
+  position: absolute;
+  top: 45%;
+  left: clamp(24px, var(--divider), calc(100% - 24px));
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--fg);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--fg);
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+@media (max-width: 640px) {
+  .demo-stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .demo-stages li {
+    overflow-wrap: normal;
+  }
+}
+.demo :is(button, input, select, summary) {
+  scroll-margin-block: calc(var(--bar-h) + 1rem);
+}

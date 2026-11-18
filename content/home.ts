@@ -1,0 +1,65 @@
+/** Copy for the home page. Facts only; see /content/site.ts for the source summary. */
+
+export const home = {
+  preload: { caption: '// tuning in', done: '// signal found' },
+  hero: {
+    eyebrow: '// portfolio · London, UK',
+    name: 'Het Suhagiya',
+    subline: 'Data Analyst. I turn messy data into decisions people trust.',
+    primaryCta: { label: 'See the work', href: '/work' },
+    cvCta: { label: 'Download CV' },
+    caption: '// one signal, followed from noise to decision',
+    scrollHint: 'Scroll to follow the signal',
+  },
+  framework: {
+    eyebrow: '// the method',
+    heading: 'From signal to decision',
+    body: 'Three movements, the same on every account: Connect the sources, Own the logic, Act on the answer.',
+  },
+  connect: {
+    no: '01',
+    title: 'Connect',
+    body: 'Every account starts as noise: ten or more sources per client, each with its own shape. I integrate and validate them through Funnel.io until they flow as one stream.',
+    sources: ['GA4', 'Google Ads', 'Meta Ads', 'Shopify', 'Funnel.io'],
+    counter: { value: 10, suffix: '+', label: 'sources per client' },
+    captionStart: '// raw sources, unmodelled',
+    captionEnd: '// one stream, integrated and validated',
+  },
+  own: {
+    no: '02',
+    title: 'Own',
+    body: 'SQL views in BigQuery hold the transformations, the business logic and one calculation per metric. Then source and report are reconciled until they agree.',
+    caption: '// views, logic, consistent metrics, validation',
+    reconcile: {
+      sourceLabel: 'Source platform',
+      reportLabel: 'BI report',
+      rows: ['Sessions', 'Orders', 'Revenue', 'Ad spend'],
+      before: '// source and report disagree',
+      after: '// reconciled: the numbers tick',
+      note: 'Illustrative, synthetic values',
+    },
+  },
+  act: {
+    no: '03',
+    title: 'Act',
+    body: 'Tableau and Looker Studio dashboards turn validated numbers into commercial performance, trends and insight someone can act on.',
+    caption: '// the thread turns amber: a decision is made',
+    decision: 'A decision is made.',
+    tiles: ['Commercial performance', 'Trends', 'Actionable insight'],
+    note: 'Illustrative, synthetic values',
+  },
+  featured: {
+    eyebrow: '// selected work',
+    heading: 'Seven pieces of work, each with something to play with',
+    hint: 'Scroll, drag or use the arrow keys',
+    all: { label: 'Index of all work', href: '/work' },
+    caption: '// each poster is drawn live, from the project it stands for',
+  },
+  contact: {
+    eyebrow: '// destination',
+    heading: 'Open to new roles',
+    body: 'Looking for my next role as a Data Analyst, Analytics Engineer or BI Developer, including AI and analytics hybrid roles. Based in London.',
+    cta: { label: 'Get in touch', href: '/contact' },
+    caption: '// the signal ends where a conversation starts',
+  },
+} as const;

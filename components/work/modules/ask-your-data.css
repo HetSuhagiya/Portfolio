@@ -1,0 +1,513 @@
+/*
+ * Module: "Ask your data" (/work/ai-dashboard-generator).
+ * Loaded with the module's lazy chunk. Only transform, opacity and colour are animated.
+ * `[data-pinned]` is set when the Approach section is pinned: the module then fills a fixed height.
+ */
+
+.ayd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  height: 100%;
+  padding: 0.75rem;
+}
+@media (min-width: 640px) {
+  .ayd {
+    padding: 1rem;
+  }
+}
+
+/* Prompt box */
+.ayd-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.3125rem 0.3125rem 0.3125rem 0.875rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface);
+  transition: border-color 0.3s var(--ease-ui);
+}
+.ayd-prompt:focus-within {
+  border-color: var(--tint);
+}
+.ayd-prompt:has(.ayd-input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.ayd-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.375rem 0;
+  resize: none;
+  field-sizing: content;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--fg);
+  outline: none;
+  cursor: default;
+}
+
+.ayd-chip {
+  min-height: 2rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--fg-mute);
+  transition:
+    color 0.3s var(--ease-ui),
+    border-color 0.3s var(--ease-ui),
+    background-color 0.3s var(--ease-ui);
+}
+.ayd-chip[aria-pressed='true'] {
+  color: var(--fg);
+  border-color: var(--tint);
+  background: color-mix(in oklab, var(--tint) 14%, transparent);
+}
+
+/* Pipeline + time-lapse clock */
+.ayd-rail {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 0.5rem;
+  border-block: 1px solid var(--line);
+}
+.ayd-stages {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+}
+.ayd-stage {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--fg-mute);
+  transition: color 0.4s var(--ease-ui);
+}
+.ayd-stage:first-child {
+  flex: 0 1 auto;
+}
+/* The connector into a stage lights with the stage. */
+.ayd-stage:not(:first-child)::before {
+  content: '';
+  flex: 1;
+  min-width: 0.5rem;
+  height: 1px;
+  margin-left: 0.5rem;
+  background: var(--line);
+  transition: background-color 0.4s var(--ease-ui);
+}
+.ayd-dot {
+  flex: none;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  transition:
+    background-color 0.4s var(--ease-ui),
+    border-color 0.4s var(--ease-ui),
+    box-shadow 0.4s var(--ease-ui);
+}
+.ayd-stage-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ayd-stage[data-on] {
+  color: var(--fg);
+}
+.ayd-stage[data-on]::before,
+.ayd-stage[data-on] .ayd-dot {
+  background: var(--tint);
+  border-color: var(--tint);
+}
+.ayd-stage[data-active] .ayd-dot {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--tint) 28%, transparent);
+}
+/* The last stage is the decision: amber, like everywhere else on the site. */
+.ayd-stage:last-child[data-on] .ayd-dot {
+  background: var(--decide);
+  border-color: var(--decide);
+}
+/* Small screens: dots only, plus the name of the stage that is running. Names stay available to screen readers. */
+@media (max-width: 767px) {
+  .ayd-stage:not([data-active]) .ayd-stage-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+.ayd-status {
+  min-height: 2.9em;
+}
+
+/* Stage: empty, streaming, or the dashboard */
+.ayd-empty,
+.ayd-stream {
+  flex: 1;
+  min-height: 16rem;
+  border-radius: 10px;
+}
+.ayd-empty {
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--line);
+}
+.ayd-stream {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.ayd-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  vertical-align: -0.18em;
+  background: var(--tint);
+  animation: ayd-blink 0.9s steps(2, jump-none) infinite;
+}
+@keyframes ayd-blink {
+  to {
+    opacity: 0;
+  }
+}
+
+.ayd-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  align-content: start;
+  gap: 0.5rem;
+}
+@media (min-width: 768px) {
+  .ayd-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.ayd[data-pinned] .ayd-empty,
+.ayd[data-pinned] .ayd-stream {
+  min-height: 0;
+}
+.ayd[data-pinned] .ayd-grid {
+  flex: 1;
+  min-height: 0;
+  grid-auto-rows: minmax(0, 1fr);
+  align-content: stretch;
+}
+
+/* Tile */
+.ayd-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+  min-height: 7.5rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--line);
+  /* Opaque, so a dragged tile reads cleanly over its neighbours. */
+  background: color-mix(in oklab, var(--fg) 4%, var(--bg));
+}
+.ayd-tile[data-span='2'] {
+  grid-column: span 2;
+}
+.ayd-tile[data-kind='chart'] {
+  min-height: 13.5rem;
+}
+.ayd[data-pinned] .ayd-tile {
+  min-height: 0;
+}
+.ayd-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.ayd-head[data-drag] {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.ayd-head[data-drag]:active {
+  cursor: grabbing;
+}
+.ayd-grip {
+  margin-right: 0.375rem;
+  color: var(--line-strong);
+}
+.ayd-meta {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--fg-mute);
+}
+.ayd-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+.ayd-tile[data-kind='kpi'] .ayd-body {
+  justify-content: space-between;
+  gap: 0.375rem;
+}
+.ayd-kpi {
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 2.5vw, 2.375rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.ayd-plot {
+  position: relative;
+  flex: 1;
+  min-height: 2rem;
+  transition: opacity 0.3s var(--ease-ui);
+}
+.ayd-plot[data-busy] {
+  opacity: 0.25;
+}
+/* KPI sparkline: takes whatever height the tile has to spare, and gives it all up when the tile is short. */
+.ayd-spark {
+  min-height: 0;
+  max-height: 5.5rem;
+}
+.ayd-cats,
+.ayd-foot {
+  margin-top: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: var(--fg-mute);
+}
+.ayd-cats {
+  display: grid;
+  text-align: center;
+}
+.ayd-cats li {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding-inline: 0.125rem;
+}
+.ayd-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* Tile controls */
+.ayd-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+.ayd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--fg-mute);
+  transition:
+    color 0.25s var(--ease-ui),
+    border-color 0.25s var(--ease-ui),
+    background-color 0.25s var(--ease-ui);
+}
+.ayd-btn:disabled {
+  opacity: 0.35;
+}
+.ayd-btn[aria-pressed='true'] {
+  border-color: var(--tint);
+  background: var(--tint);
+  color: var(--bg);
+}
+.ayd-segs {
+  display: inline-flex;
+}
+.ayd-segs .ayd-btn {
+  border-radius: 0;
+}
+.ayd-segs .ayd-btn + .ayd-btn {
+  margin-left: -1px;
+}
+.ayd-segs .ayd-btn:first-child {
+  border-radius: 6px 0 0 6px;
+}
+.ayd-segs .ayd-btn:last-child {
+  border-radius: 0 6px 6px 0;
+}
+.ayd-btn-ask {
+  margin-left: auto;
+  color: var(--fg);
+}
+@media (hover: hover) {
+  .ayd-chip:hover,
+  .ayd-btn:not(:disabled):not([aria-pressed='true']):hover {
+    color: var(--fg);
+    border-color: var(--line-strong);
+  }
+  .ayd-follow:hover {
+    border-color: var(--tint);
+  }
+}
+@media (pointer: coarse) {
+  .ayd-chip,
+  .ayd-btn,
+  .ayd-follow {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
+/* Pinned (always a hover device): the controls float over the tile and appear on hover or focus. */
+.ayd[data-pinned] .ayd-tools {
+  position: absolute;
+  right: 0.375rem;
+  bottom: 0.375rem;
+  left: 0.375rem;
+  z-index: 3;
+  margin: 0;
+  padding: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s var(--ease-ui);
+}
+.ayd[data-pinned] .ayd-tile:hover .ayd-tools,
+.ayd[data-pinned] .ayd-tile:focus-within .ayd-tools {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Follow-up prompt: covers the tile it edits */
+.ayd-ask {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--fg) 7%, var(--bg));
+  animation: soft-in 0.3s var(--ease-out) both;
+}
+.ayd-follow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.875rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-align: left;
+  color: var(--fg);
+  transition: border-color 0.25s var(--ease-ui);
+}
+.ayd-ask-close {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+}
+
+/* The follow-up "running" on one tile */
+.ayd-reprompt {
+  position: absolute;
+  top: 2.1rem;
+  right: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+  overflow: hidden;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-strong);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--fg);
+}
+.ayd-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, color-mix(in oklab, var(--tint) 32%, transparent) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: ayd-sweep 0.85s var(--ease-in-out) both;
+}
+@keyframes ayd-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Drag the right edge to resize */
+.ayd-resize {
+  position: absolute;
+  top: 22%;
+  right: -5px;
+  bottom: 22%;
+  z-index: 3;
+  width: 10px;
+  cursor: ew-resize;
+  touch-action: none;
+}
+.ayd-resize::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--line-strong);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease-ui);
+}
+.ayd-tile:hover .ayd-resize::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ayd-caret,
+  .ayd-shimmer,
+  .ayd-ask {
+    animation: none;
+  }
+}

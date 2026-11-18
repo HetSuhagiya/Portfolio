@@ -1,0 +1,983 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                        */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* Raw palette */
+  --ink: #07080b;
+  --paper: #edeae3;
+  --mute: #8a8d96;
+  --signal: #5cf2d6;
+  --decision: #ffb547;
+
+  /* Semantic, ink theme (default). Contrast on --bg: fg 16.9:1, fg-mute 6.0:1, accent 14.3:1, decide 11.3:1 */
+  --bg: var(--ink);
+  --fg: var(--paper);
+  --fg-mute: var(--mute);
+  --line: rgb(237 234 227 / 0.14);
+  --line-strong: rgb(237 234 227 / 0.32);
+  --surface: rgb(237 234 227 / 0.04);
+  --surface-strong: rgb(18 20 26 / 0.86);
+  --accent: var(--signal);
+  --decide: var(--decision);
+  --ok: #7ee2a8;
+  --bad: #ff8a80;
+  /* Page tint: set per route by <RouteState>. */
+  --tint: var(--signal);
+
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --rail: 0px;
+  --bar-h: 4.5rem;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-ui: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --rail: 3.5rem;
+  }
+}
+
+/* Paper theme: ink type on paper. Contrast on --bg: fg 16.9:1, fg-mute 5.3:1, accent 5.1:1, decide 5.1:1 */
+html[data-theme='paper'] {
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --fg-mute: #5b5e66;
+  --line: rgb(7 8 11 / 0.16);
+  --line-strong: rgb(7 8 11 / 0.4);
+  --surface: rgb(7 8 11 / 0.035);
+  --surface-strong: rgb(245 243 238 / 0.9);
+  --accent: #0a6e5e;
+  --decide: #8f5200;
+  --ok: #17663d;
+  --bad: #a3261c;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-signal: var(--signal);
+  --color-decision: var(--decision);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-mute: var(--fg-mute);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-accent: var(--accent);
+  --color-decide: var(--decide);
+  --color-tint: var(--tint);
+  --color-ok: var(--ok);
+  --color-bad: var(--bad);
+
+  --font-display: var(--font-serif), 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --ease-out-expo: var(--ease-out);
+  --ease-in-out-cubic: var(--ease-in-out);
+  --ease-ui: var(--ease-ui);
+
+  --breakpoint-xs: 26rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                 */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-gutter: stable;
+    /* The background is painted by #stage so the root view-transition snapshot stays see-through. */
+    background: transparent;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--fg);
+    font-size: 1rem;
+    line-height: 1.55;
+    overflow-x: clip;
+    min-height: 100svh;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  svg {
+    overflow: visible;
+  }
+
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: clip;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Type scale (fluid, semantic)                                         */
+/* ------------------------------------------------------------------ */
+
+@utility text-display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(3.75rem, 15.5vw, 17rem);
+  line-height: 0.84;
+  letter-spacing: -0.035em;
+}
+@utility text-display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 10vw, 10.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+@utility text-display-md {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6.2vw, 6.25rem);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+}
+@utility text-display-sm {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 3.4vw, 3.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+@utility text-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+@utility text-lead {
+  font-size: clamp(1.125rem, 1.45vw, 1.4375rem);
+  line-height: 1.42;
+  letter-spacing: -0.008em;
+}
+@utility text-body {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+@utility text-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+/* Mono caption: "// meaning of the thing next to it" */
+@utility text-caption {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  letter-spacing: 0;
+  color: var(--fg-mute);
+}
+/* Mono label: uppercase, tracked */
+@utility text-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout                                                               */
+/* ------------------------------------------------------------------ */
+
+/* Page container: gutters, plus room for the progress rail on desktop. */
+@utility wrap {
+  padding-left: calc(var(--gutter) + var(--rail));
+  padding-right: var(--gutter);
+  margin-inline: auto;
+  width: 100%;
+  max-width: 120rem;
+}
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(0.75rem, 1.6vw, 1.75rem);
+}
+@utility rule {
+  height: 1px;
+  width: 100%;
+  background: var(--line);
+}
+
+/* Pinned scene: a tall section with a sticky 100svh viewport. No pin-spacers, no layout mutation. */
+.scene {
+  position: relative;
+  height: calc(var(--len, 2) * 100svh);
+}
+.scene-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    height: auto;
+  }
+  .scene-pin {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+}
+
+/* Scene windows: the signal is fitted into an empty window. Without WebGL (or under reduced motion)
+   a static SVG illustration (.gl-alt) fills it instead; .scene-labels are real text placed on the particles. */
+.gl-alt {
+  opacity: 1;
+  transition: opacity 0.6s var(--ease-in-out);
+}
+.scene-labels {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-in-out);
+}
+.scene-labels > li {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-js][data-gl='on'] .gl-alt {
+    opacity: 0;
+  }
+  html[data-js][data-gl='on'] .scene-labels {
+    opacity: 1;
+  }
+}
+/* Paired captions cross-fade on scroll. Static contexts show only the resolved one. */
+html:not([data-js]) [data-cap-start] {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-cap-start] {
+    display: none;
+  }
+}
+
+/* Reconciliation rows (home, "Own") */
+.recon-bar {
+  background: var(--bad);
+  transition: background-color 0.3s var(--ease-ui);
+}
+.recon-delta {
+  color: var(--bad);
+  transition: color 0.3s var(--ease-ui);
+}
+.recon-key,
+.recon-row[data-ok] .recon-bar {
+  background: var(--ok);
+}
+.recon-row[data-ok] .recon-delta {
+  color: var(--ok);
+}
+
+/* Featured work: a native snap scroller by default, a pinned scrubbed track on desktop. */
+.featured {
+  position: relative;
+}
+.featured-scroller {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+.featured-scroller::-webkit-scrollbar {
+  display: none;
+}
+.featured-track {
+  display: flex;
+  gap: clamp(1rem, 2.2vw, 2.25rem);
+  width: max-content;
+  padding-left: calc(var(--gutter) + var(--rail));
+  padding-right: var(--gutter);
+}
+.featured-card {
+  flex: none;
+  width: clamp(14.5rem, 62vw, 21rem);
+  scroll-snap-align: start;
+}
+.featured-bar {
+  display: none;
+}
+@media (min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+  html[data-js] .featured {
+    height: calc(var(--len, 3) * 100svh);
+  }
+  html[data-js] .featured-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: clip;
+  }
+  html[data-js] .featured-scroller {
+    overflow: visible;
+    scroll-snap-type: none;
+    display: flex;
+    align-items: center;
+  }
+  html[data-js] .featured-track {
+    user-select: none;
+    will-change: transform;
+  }
+  html[data-js] .featured-card {
+    width: clamp(15rem, min(25vw, 36svh), 27rem);
+  }
+  html[data-js] .featured-bar {
+    display: block;
+  }
+}
+
+/* Case study: the Approach section pins on desktop (mirrors PIN_QUERY in components/work/modules/types.ts). */
+.approach {
+  position: relative;
+}
+.module {
+  min-height: 30rem;
+}
+.approach-body {
+  animation: soft-in 0.5s var(--ease-out) both;
+}
+@keyframes soft-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@media (min-width: 1024px) and (min-height: 620px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+  html[data-js] .approach {
+    height: calc(var(--len, 5) * 100svh);
+  }
+  html[data-js] .approach-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: clip;
+  }
+  html[data-js] .approach-pin > .wrap {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  html[data-js] .approach .module {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .approach-body {
+    animation: none;
+  }
+}
+
+.mess-chip {
+  background: var(--surface-strong);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Sticky "Download CV / Contact" pair on case studies. */
+.case-dock {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 1.25rem;
+  z-index: 30;
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition:
+    opacity 0.4s var(--ease-out),
+    transform 0.5s var(--ease-out),
+    visibility 0s 0.4s;
+}
+.case-dock[data-show] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.4s var(--ease-out),
+    transform 0.5s var(--ease-out),
+    visibility 0s;
+}
+.case-dock-ghost {
+  background: var(--surface-strong);
+  backdrop-filter: blur(10px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-dock {
+    transform: none;
+  }
+}
+
+/* Code snippets */
+.code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  tab-size: 4;
+}
+.code-row {
+  display: grid;
+  grid-template-columns: 3.25rem max-content;
+}
+.code-no {
+  padding-right: 1rem;
+  text-align: right;
+  color: var(--fg-mute);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.code-line {
+  display: block;
+  width: fit-content;
+  min-height: 1.7em;
+  white-space: pre;
+}
+.code-caret {
+  position: absolute;
+  top: 1rem;
+  left: 3.25rem;
+  width: 1ch;
+  height: 1.7em;
+  background: var(--accent);
+  opacity: 0;
+  mix-blend-mode: difference;
+  transform: translate(calc(var(--cx, 0) * 1ch), calc(var(--cy, 0) * 1.7em));
+  pointer-events: none;
+}
+.tok-kw {
+  color: var(--accent);
+}
+.tok-str,
+.tok-num {
+  color: color-mix(in oklab, var(--tint) 70%, var(--fg));
+}
+.tok-com {
+  color: var(--fg-mute);
+  font-style: italic;
+}
+.tok-op {
+  color: var(--fg-mute);
+}
+.tok-fn,
+.tok-txt {
+  color: var(--fg);
+}
+
+.scroll-cue {
+  transform-origin: top;
+  animation: cue 2.4s var(--ease-in-out) infinite;
+}
+@keyframes cue {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  50.01% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Stage (the persistent canvas + its CSS fallback)                     */
+/* ------------------------------------------------------------------ */
+
+#stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg);
+  pointer-events: none;
+  contain: strict;
+  view-transition-name: stage;
+  transition: background-color 0.9s var(--ease-in-out);
+}
+#stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* CSS fallback: shown until WebGL takes over, and forever if it is unavailable. */
+.stage-fallback {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 1.2s var(--ease-in-out);
+  background:
+    radial-gradient(60% 32% at 50% 52%, color-mix(in oklab, var(--tint) 22%, transparent), transparent 70%),
+    linear-gradient(
+      100deg,
+      transparent 0%,
+      transparent 46%,
+      color-mix(in oklab, var(--tint) 34%, transparent) 50%,
+      transparent 54%,
+      transparent 100%
+    );
+}
+html[data-gl='on'] .stage-fallback {
+  opacity: 0;
+}
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html[data-theme='paper'] .grain {
+  filter: invert(1);
+}
+html[data-gl='on'] .grain {
+  display: none;
+}
+
+#page {
+  position: relative;
+  z-index: 1;
+}
+
+/* Preloader: hidden on repeat visits and when JS is unavailable (class set by the inline boot script). */
+html[data-seen] #preloader,
+html:not([data-js]) #preloader {
+  display: none;
+}
+
+/* SplitText masks: give tight display type room for ascenders, descenders and overhang. */
+.rl-mask {
+  padding-block: 0.08em 0.16em;
+  margin-block: -0.08em -0.16em;
+}
+.rc-mask {
+  padding: 0.08em 0.06em 0.18em;
+  margin: -0.08em -0.06em -0.18em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Reveals                                                              */
+/* ------------------------------------------------------------------ */
+
+/* JS-driven reveals start hidden only when JS is running (class set by an inline script, with a failsafe). */
+html[data-js] [data-reveal] {
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-js] [data-reveal] {
+    visibility: visible;
+  }
+}
+
+/* Lightweight CSS scroll-driven reveals, where supported. Visible by default everywhere else. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sda-fade {
+      animation: sda-fade linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 55%;
+    }
+    .sda-rule {
+      transform-origin: left center;
+      animation: sda-rule linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+@keyframes sda-fade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sda-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Components                                                           */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--fg);
+    transition-property: background-color, color, border-color, scale;
+    transition-duration: 0.3s, 0.3s, 0.3s, 0.15s;
+    transition-timing-function: var(--ease-ui);
+  }
+  .btn:not(:disabled):active {
+    scale: 0.96;
+  }
+  .btn-solid {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .btn-sm {
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+  @media (hover: hover) {
+    .btn:hover {
+      background: var(--fg);
+      color: var(--bg);
+      border-color: var(--fg);
+    }
+    .btn-solid:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--ink);
+    }
+    html[data-theme='paper'] .btn-solid:hover {
+      color: var(--paper);
+    }
+  }
+
+  /* Underlined text link with an animated rule (separate element, transform only). */
+  .link {
+    position: relative;
+    display: inline-block;
+  }
+  .link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.12em;
+    height: 1px;
+    background: currentColor;
+    transform-origin: left center;
+    transform: scaleX(1);
+    transition: transform 0.5s var(--ease-out);
+  }
+  @media (hover: hover) {
+    .link:hover::after {
+      transform-origin: right center;
+      transform: scaleX(0);
+    }
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--fg-mute);
+    white-space: nowrap;
+  }
+
+  /* A framed panel for interactive modules. */
+  .panel {
+    border: 1px solid var(--line);
+    background: var(--surface-strong);
+    border-radius: 14px;
+  }
+
+  .edit-flag {
+    display: inline-block;
+    margin-inline: 0.15em;
+    padding: 0.05em 0.45em;
+    border: 1px dashed var(--decide);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--decide);
+    vertical-align: 0.1em;
+    text-transform: none;
+    text-wrap: wrap;
+  }
+
+  .pulse-dot {
+    position: relative;
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: #4ade80;
+    flex: none;
+  }
+  .pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #4ade80;
+    animation: pulse 2.4s var(--ease-out) infinite;
+  }
+  html[data-theme='paper'] .pulse-dot,
+  html[data-theme='paper'] .pulse-dot::after {
+    background: #15803d;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  to {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Poster art: CSS/SVG fallback under the WebGL poster. */
+.poster {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+}
+.poster-art {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.5s var(--ease-in-out);
+}
+html[data-gl-posters='on'] .poster-art {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Custom cursor                                                        */
+/* ------------------------------------------------------------------ */
+
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* View transitions                                                     */
+/* ------------------------------------------------------------------ */
+
+@view-transition {
+  navigation: none;
+}
+
+/* The stage keeps rendering live underneath everything. */
+::view-transition-group(stage) {
+  z-index: -1;
+  animation: none;
+}
+::view-transition-old(stage) {
+  display: none;
+}
+::view-transition-new(stage) {
+  animation: none;
+  opacity: 1;
+}
+/* Chrome persists without cross-fading. */
+::view-transition-old(topbar),
+::view-transition-old(rail) {
+  display: none;
+}
+::view-transition-new(topbar),
+::view-transition-new(rail) {
+  animation: none;
+}
+::view-transition-group(topbar),
+::view-transition-group(rail) {
+  z-index: 50;
+}
+
+::view-transition-old(root) {
+  animation: vt-out 0.32s var(--ease-in-out) both;
+}
+::view-transition-new(root) {
+  animation: vt-in 0.5s 0.12s var(--ease-out) both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Shared elements: a work card's title and poster expand into the case-study hero. */
+::view-transition-group(case-title),
+::view-transition-group(case-poster) {
+  animation-duration: 0.85s;
+  animation-timing-function: var(--ease-out);
+  z-index: 10;
+}
+::view-transition-old(case-title),
+::view-transition-new(case-title) {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: left top;
+  animation-duration: 0.4s;
+}
+::view-transition-old(case-poster),
+::view-transition-new(case-poster) {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.2s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Print: the résumé prints clean                                       */
+/* ------------------------------------------------------------------ */
+
+@media print {
+  :root,
+  html[data-theme='paper'] {
+    --bg: #fff;
+    --fg: #000;
+    --fg-mute: #444;
+    --line: #bbb;
+    --accent: #000;
+  }
+  #stage,
+  .no-print,
+  [data-chrome] {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #fff;
+  }
+  html[data-js] [data-reveal] {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  @page {
+    margin: 14mm;
+  }
+}
