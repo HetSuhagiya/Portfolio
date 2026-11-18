@@ -13,7 +13,7 @@ export const yewTechnologies: CaseStudy = {
   facts: {
     role: 'Data Analyst Intern',
     type: 'Internship',
-    period: '6 months [EDIT: dates]',
+    period: '6 months',
     stack: ['SQL', 'Tableau'],
   },
   theme: 'ink',
@@ -119,6 +119,6 @@ ORDER BY weeks_of_cover ASC;`,
     ],
   },
   learned: {
-    body: '[EDIT: draft] This is where I learned that a good grouping beats a clever chart. Next I would add seasonality to the stock signal, so cover is judged against the weeks ahead and not the weeks behind.',
+    body: 'This is where I learned that a good grouping beats a clever chart. Next I would add seasonality to the stock signal, so cover is judged against the weeks ahead and not the weeks behind.',
   },
 };

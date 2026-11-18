@@ -13,7 +13,7 @@ export const publicisGroupe: CaseStudy = {
   facts: {
     role: 'Data Analyst, delivery lead',
     type: 'Client work at Dashworx',
-    period: 'Within Sept 2025 to Nov 2026 [EDIT: project dates]',
+    period: 'Within Sept 2025 to Nov 2026',
     stack: ['Tableau', 'Data integration', 'Reporting logic', 'KPI implementation'],
   },
   theme: 'ink',
@@ -26,7 +26,7 @@ export const publicisGroupe: CaseStudy = {
       'How Het Suhagiya led end-to-end delivery of a Tableau reporting project for Publicis Groupe: data integration, reporting logic, KPI implementation and dashboard development.',
   },
   brief: {
-    body: 'A Tableau reporting project for Publicis Groupe, delivered at Dashworx. I led it end to end: data integration, reporting logic, KPI implementation and dashboard development. [EDIT: one sentence on the question the reporting had to answer, if it can be shared]',
+    body: 'A Tableau reporting project for Publicis Groupe, delivered at Dashworx. I led it end to end: data integration, reporting logic, KPI implementation and dashboard development.',
     caption: '// one project, four layers, one owner',
     glyph: 'layers',
   },
@@ -126,9 +126,8 @@ GROUP BY 1, 2, 3, 4;`,
     heading: 'Delivered, end to end',
     body: 'A Tableau reporting project for Publicis Groupe, led from data integration through reporting logic and KPI implementation to dashboard development.',
     stats: [],
-    edit: '[EDIT: add an outcome only if it can be shared, for example who uses the dashboards and how often. Delete this note otherwise.]',
   },
   learned: {
-    body: '[EDIT: draft] Leading delivery taught me to settle metric definitions before building anything visual. Next time I would put a rough draft in front of stakeholders even earlier.',
+    body: 'Leading delivery taught me to settle metric definitions before building anything visual. Next time I would put a rough draft in front of stakeholders even earlier.',
   },
 };

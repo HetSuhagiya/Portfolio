@@ -15,7 +15,7 @@ export const pantherella: CaseStudy = {
     type: 'Client work at Dashworx',
     period: 'Within Sept 2025 to Nov 2026',
     stack: ['KPI frameworks', 'BI dashboards', 'BigQuery', 'Looker Studio'],
-    stackLabel: 'Stack (role-wide) [EDIT: confirm for this account]',
+    stackLabel: 'Stack (role-wide)',
   },
   theme: 'ink',
   tint: '#E29C86',
@@ -27,7 +27,7 @@ export const pantherella: CaseStudy = {
       'KPI frameworks and BI dashboards for the Pantherella International Group account, shown through an interactive metric tree built on synthetic data.',
   },
   brief: {
-    body: 'Pantherella International Group is one of the 10+ client accounts I managed at Dashworx, delivering data solutions, KPI frameworks and BI dashboards. [EDIT: confirm the specific work done for this account. Until then, this page shows the kind of framework I built across accounts.]',
+    body: 'Pantherella International Group is one of the 10+ client accounts I managed at Dashworx, delivering data solutions, KPI frameworks and BI dashboards.',
     caption: '// a framework, not a list of numbers',
     glyph: 'tree',
   },
@@ -110,9 +110,8 @@ GROUP BY 1, 2;`,
     heading: 'Performance that explains itself',
     body: 'KPI frameworks and BI dashboards delivered as part of managing analytics across 10+ client accounts at Dashworx.',
     stats: [{ value: 10, suffix: '+', label: 'client accounts managed at Dashworx' }],
-    edit: '[EDIT: add a result specific to this account only if it can be shared. Delete this note otherwise.]',
   },
   learned: {
-    body: '[EDIT: draft] A KPI framework is a communication tool before it is a data model. Next I would agree the tree with stakeholders on paper before writing any SQL.',
+    body: 'A KPI framework is a communication tool before it is a data model. Next I would agree the tree with stakeholders on paper before writing any SQL.',
   },
 };

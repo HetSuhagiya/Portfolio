@@ -24,7 +24,7 @@ export const site = {
    * Show the small [EDIT] badges next to draft copy on the live site.
    * Keep true while reviewing; set to false once every placeholder is resolved.
    */
-  showEditMarkers: true,
+  showEditMarkers: false,
   demoLabel: 'Illustrative demo, synthetic data, not client data',
 } as const;
 

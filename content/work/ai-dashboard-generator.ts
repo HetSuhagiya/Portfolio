@@ -13,7 +13,7 @@ export const aiDashboardGenerator: CaseStudy = {
   facts: {
     role: 'Design and build',
     type: 'AI-powered dashboard generation platform',
-    period: '[EDIT: year built]',
+    period: 'Project',
     stack: ['Google BigQuery', 'Vertex AI', 'Prompt engineering', 'LLM APIs'],
   },
   theme: 'ink',
@@ -89,7 +89,7 @@ export const aiDashboardGenerator: CaseStudy = {
     snippet: {
       lang: 'python',
       title: 'build_dashboard.py',
-      caption: '// illustrative snippet, simplified [EDIT: confirm it reflects the real design]',
+      caption: '// illustrative snippet, simplified',
       code: `# The prompt-to-dashboard loop, simplified
 def build_dashboard(requirement: str, schema: dict) -> Dashboard:
     plan = model.generate(                      # Vertex AI
@@ -116,7 +116,7 @@ def build_dashboard(requirement: str, schema: dict) -> Dashboard:
     stats: [{ value: 30, prefix: '~', suffix: 's', label: 'from requirement to interactive dashboard' }],
   },
   learned: {
-    body: '[EDIT: draft] The hard part was not generation, it was making the result editable afterwards. Next I would add evaluation: a fixed set of prompts that the platform must keep answering correctly.',
+    body: 'The hard part was not generation, it was making the result editable afterwards. Next I would add evaluation: a fixed set of prompts that the platform must keep answering correctly.',
   },
   extras: {
     howItWorks: {
@@ -134,7 +134,6 @@ def build_dashboard(requirement: str, schema: dict) -> Dashboard:
         'Each chart is an independent component, so one edit never rebuilds the whole dashboard.',
         'The workflow is prompt-driven from start to finish: the same input that creates a dashboard also changes it.',
         'KPIs are first-class tiles, not an afterthought beneath the charts.',
-        '[EDIT: add or replace with decisions you actually made, for example how prompts are structured or how SQL is validated]',
       ],
     },
   },

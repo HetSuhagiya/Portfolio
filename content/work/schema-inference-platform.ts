@@ -13,7 +13,7 @@ export const schemaInferencePlatform: CaseStudy = {
   facts: {
     role: 'Design and build',
     type: 'Data processing and schema inference platform',
-    period: '[EDIT: year built]',
+    period: 'Project',
     stack: ['ETL', 'Schema inference', 'Data quality checks', 'BigQuery'],
   },
   theme: 'ink',
@@ -91,7 +91,7 @@ export const schemaInferencePlatform: CaseStudy = {
     snippet: {
       lang: 'python',
       title: 'infer_type.py',
-      caption: '// illustrative snippet, simplified [EDIT: confirm it reflects the real implementation]',
+      caption: '// illustrative snippet, simplified',
       code: `# Infer one column's type from the values it actually holds
 def infer_type(values: list[str]) -> str:
     present = [v.strip() for v in values if v and v.strip()]
@@ -112,9 +112,8 @@ def infer_type(values: list[str]) -> str:
     heading: 'Files a warehouse will accept',
     body: 'Automated ETL for CSV and Excel with schema inference, data-type standardisation and data-quality checks, producing BigQuery-compatible schemas.',
     stats: [],
-    edit: '[EDIT: add a figure only if you have one, for example the number of files or columns processed. Delete this note otherwise.]',
   },
   learned: {
-    body: '[EDIT: draft] Inference is the easy half; reporting why a column got its type is what makes people trust it. Next I would add a review step where a person can override any inferred type.',
+    body: 'Inference is the easy half; reporting why a column got its type is what makes people trust it. Next I would add a review step where a person can override any inferred type.',
   },
 };

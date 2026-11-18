@@ -138,6 +138,6 @@ QUALIFY ROW_NUMBER() OVER (
     ],
   },
   learned: {
-    body: '[EDIT: draft] Most of the value sits in the unglamorous middle: validation and reconciliation. Next I would turn my recurring checks into automated tests that run with every refresh.',
+    body: 'Most of the value sits in the unglamorous middle: validation and reconciliation. Next I would turn my recurring checks into automated tests that run with every refresh.',
   },
 };

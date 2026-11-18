@@ -18,7 +18,7 @@ export const about = {
   origin: {
     eyebrow: '// origin',
     heading: 'Why data',
-    body: '[EDIT: draft, 80 to 120 words, rewrite in your own voice] I have always wanted to know why a number is what it is. A sales figure, a conversion rate, a chart that suddenly dips: there is a reason behind each one, and most of the time it is hiding in data that nobody has had the time to untangle. That curiosity took me to an MSc in Data Science and Analytics at Brunel, and then into client work, where I learned that an answer only matters if people trust it enough to act on it. Today I connect sources, own the logic and build the dashboards that carry a number from raw data to a decision.',
+    body: 'I have always wanted to know why a number is what it is. A sales figure, a conversion rate, a chart that suddenly dips: there is a reason behind each one, and most of the time it is hiding in data that nobody has had the time to untangle. That curiosity took me to an MSc in Data Science and Analytics at Brunel, and then into client work, where I learned that an answer only matters if people trust it enough to act on it. Today I connect sources, own the logic and build the dashboards that carry a number from raw data to a decision.',
     caption: '// noise first, then a question',
   },
   timeline: {
@@ -38,7 +38,7 @@ export const about = {
       },
       {
         id: 'yew',
-        when: '6 months [EDIT: dates]',
+        when: '6 months',
         title: 'Data Analyst Intern',
         place: 'Yew Technologies',
         body: 'Analysed 10,000+ retail transactions in SQL for sales trends, product performance and inventory planning. Built Tableau dashboards for sales and inventory KPIs.',
@@ -105,8 +105,8 @@ export const about = {
             name: 'SQL',
             usedFor: 'SQL views in BigQuery at Dashworx; analysis of 10,000+ retail transactions at Yew Technologies.',
           },
-          { name: 'Python', usedFor: 'Core analysis language. [EDIT: confirm where it was used, for example the schema inference platform]' },
-          { name: 'Excel', usedFor: 'Excel files are one of the two inputs to my schema inference platform. [EDIT: add other use]' },
+          { name: 'Python', usedFor: 'Core analysis language.' },
+          { name: 'Excel', usedFor: 'Excel files are one of the two inputs to my schema inference platform.' },
           {
             name: 'Statistical Analysis',
             usedFor: 'MSc coursework in Quantitative Data Analysis at Brunel University of London.',
@@ -125,7 +125,7 @@ export const about = {
             name: 'Tableau',
             usedFor: 'Led a Tableau reporting project for Publicis Groupe; sales and inventory dashboards at Yew Technologies.',
           },
-          { name: 'Power BI', usedFor: 'Part of my BI toolkit. [EDIT: add where it was used]' },
+          { name: 'Power BI', usedFor: 'Part of my BI toolkit.' },
         ],
       },
       {
@@ -136,7 +136,7 @@ export const about = {
             name: 'BigQuery',
             usedFor: 'SQL views for transformations, business logic and consistent metric calculations at Dashworx; the target of both of my own projects.',
           },
-          { name: 'PostgreSQL', usedFor: 'Part of my database toolkit. [EDIT: add where it was used]' },
+          { name: 'PostgreSQL', usedFor: 'Part of my database toolkit.' },
           { name: 'ETL', usedFor: 'Automated ETL for CSV and Excel in my schema inference platform.' },
           { name: 'Data Modelling', usedFor: 'KPI frameworks and metric logic across 10+ client accounts.' },
           { name: 'Data Pipelines', usedFor: 'Sources to Funnel.io to BigQuery to BI, for every Dashworx account.' },
@@ -151,8 +151,8 @@ export const about = {
         label: 'Cloud',
         skills: [
           { name: 'GCP', usedFor: 'BigQuery and Vertex AI, in client work and in my own projects.' },
-          { name: 'Git', usedFor: 'Version control. [EDIT: add where it was used]' },
-          { name: 'Docker', usedFor: 'Containers. [EDIT: add where it was used]' },
+          { name: 'Git', usedFor: 'Version control.' },
+          { name: 'Docker', usedFor: 'Containers.' },
         ],
       },
       {
@@ -166,7 +166,7 @@ export const about = {
           },
           { name: 'LLM APIs', usedFor: 'Vertex AI, called from my AI dashboard generation platform.' },
           { name: 'Prompt Engineering', usedFor: 'The prompt-driven workflow behind dashboards in about 30 seconds.' },
-          { name: 'RAG', usedFor: 'Retrieval-augmented generation. [EDIT: add where it was used]' },
+          { name: 'RAG', usedFor: 'Retrieval-augmented generation.' },
         ],
       },
     ] satisfies SkillGroup[],

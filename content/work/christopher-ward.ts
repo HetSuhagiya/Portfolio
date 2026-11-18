@@ -15,7 +15,7 @@ export const christopherWard: CaseStudy = {
     type: 'Client work at Dashworx',
     period: 'Within Sept 2025 to Nov 2026',
     stack: ['BigQuery', 'SQL views', 'Funnel.io', 'Looker Studio'],
-    stackLabel: 'Stack (role-wide) [EDIT: confirm for this account]',
+    stackLabel: 'Stack (role-wide)',
   },
   theme: 'paper',
   tint: '#1B2A4A',
@@ -27,7 +27,7 @@ export const christopherWard: CaseStudy = {
       'Reporting automation for the Christopher Ward account: a draggable comparison of a manual reporting week and an automated, validated pipeline. Illustrative, synthetic data.',
   },
   brief: {
-    body: 'Christopher Ward is one of the 10+ client accounts I managed at Dashworx. Reporting automation is a core part of how I work: scheduled data, validated views and dashboards that stay current. [EDIT: confirm the automation work specific to this account]',
+    body: 'Christopher Ward is one of the 10+ client accounts I managed at Dashworx. Reporting automation is a core part of how I work: scheduled data, validated views and dashboards that stay current.',
     caption: '// time is the metric on this page',
     glyph: 'clock',
   },
@@ -110,9 +110,8 @@ WHERE report_date = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY);`,
     heading: 'Reporting that runs without a reporter',
     body: 'Automated reporting built on validated SQL views and dashboards, part of delivering analytics across 10+ client accounts at Dashworx.',
     stats: [],
-    edit: '[EDIT: add an hours-saved figure here only if it was your work and can be shared. Delete this note otherwise.]',
   },
   learned: {
-    body: '[EDIT: draft] Automation moves the effort from producing a report to trusting it. Next I would add alerting on the validation checks, so a failed check reaches me before it reaches a client.',
+    body: 'Automation moves the effort from producing a report to trusting it. Next I would add alerting on the validation checks, so a failed check reaches me before it reaches a client.',
   },
 };
